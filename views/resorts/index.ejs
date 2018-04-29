@@ -1,0 +1,45 @@
+<% include ../partials/header %> 
+
+     <header class="heading">
+         <div class="header-background"></div>
+         <div class="header-text">
+             <div class="container">
+                 <h1><i class="fab fa-themeisle"></i> Welcome To Resorto!</h1>
+                 <hr>
+                 <p class="description">View our hand-picked resorts from all over the world</p>
+                 <hr>
+                 <p class="resort-button">
+                    <a class="new-resort-btn" href="/resorts/new">Add New Resort</a>
+                 </p>
+                 <p>
+                  <form action="/resorts" method="GET" class="form-inline" id="resort-search">
+                    <div class="form-group">
+                      <input type="text" name="search" placeholder="Resort search..." class="form-control">
+                    </div>
+                  </form>
+                 </p>
+            </div>
+        </div>
+     </header>
+     
+     <div class="container">
+    <p class="text-center resort-list">Our Resorts</p>
+     <div class="row-resort text-center flex-wrap" id="resort-grid">
+        <% resorts.forEach(function(resort){ %>
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                  <div class="card hvr-shrink" style="width: 18rem;">
+                      <img class="card-img-top" src="<%= resort.image %>" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= resort.name %></h5>
+                            <hr>
+                               <a class="btn btn-primary btn-lg round hvr-push" 
+                               data-toggle="collapse" href="/resorts/<%= resort._id %>" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                  Details
+                              </a>
+                        </div>
+                  </div>
+            </div>
+        <% }); %>
+    </div>
+
+<% include ../partials/footer %>

@@ -1,0 +1,84 @@
+<% include ../partials/header %>
+<div class="container">
+  <div class="row">
+    <div class="col-md-3 google-map">
+      <div id="map"></div>
+    </div>
+    <div class="col-md-9 card">
+      <img class="img-responsive post" src="<%= resort.image %>">
+      <div class="caption-full">
+        <h4 class="pull-right cost">
+          $<%= resort.cost %>/night
+        </h4>
+        <h4 class="name"><a><%=resort.name%></a></h4>
+        <p><%= resort.description %></p>
+        <p>
+          <em>Submitted by: <%= resort.author.username %>, <%= moment(resort.createdAt).fromNow() %></em>
+        </p>
+        <% if(currentUser && resort.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+        <a class="btn btn-warning" href="/resorts/<%= resort._id %>/edit">Edit</a>
+        <form action="/resorts/<%= resort._id %>?_method=DELETE" method="POST" class="delete-form">
+          <button class="btn btn-danger">Delete</button>
+        </form>
+        <% } %>
+      </div>
+      <div class="well">
+        <div class="text-right">
+          <a class="btn btn-success" href="/resorts/<%= resort._id %>/comments/new">Add New Comment</a>
+        </div>
+        <hr>
+        <% resort.comments.forEach(function(comment){ %>
+        <div class="row">
+          <div class="col-md-12">
+            <strong><%= comment.author.username %>:</strong>
+            <span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span>
+            <div>
+             <%= comment.text %> 
+  
+             <% if(currentUser && comment.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+              <div class="pull-right">
+                <a href="/resorts/<%=resort._id%>/comments/<%=comment._id%>/edit" class="btn btn-xs btn-warning">EDIT</a>
+                <form class="delete-form" action="/resorts/<%=resort._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
+                  <button class="btn btn-xs btn-danger">DELETE</button>
+                </form>
+              </div>
+            <% } %>
+            <hr>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+  </div>
+</div>
+<script>
+  // shows the location of the resort
+  function initMap() {
+    var lat = <%= resort.lat %>;
+    var lng = <%= resort.lng %>;
+    var center = {lat: lat, lng: lng };
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 8,
+        center: center,
+        scrollwheel: false
+    });
+    var contentString = `
+      <strong><%= resort.name %><br />
+      <%= resort.location %></strong>
+      <p><%= resort.description %></p>
+    `
+    var infowindow = new google.maps.InfoWindow({
+      content: contentString
+    });
+    var marker = new google.maps.Marker({
+        position: center,
+        map: map
+    });
+    marker.addListener('click', function() {
+      infowindow.open(map, marker);
+    });
+  }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJGk3vBw-8TPdghxPFaLt7ms6bcH7KB7M&callback=initMap"></script>
+<% include ../partials/footer %>
