@@ -3,6 +3,10 @@
 A fully-functional website with responsive design, data persistence, 
 and user authentication made possible with Bootstrap, MongoDB, Express, Node.js, and other backend packages.
 
+![home](https://raw.githubusercontent.com/gabe-le97/Resorto/master/img/home.png)
+
+![main](https://raw.githubusercontent.com/gabe-le97/Resorto/master/img/main.png)
+
 Resorto is a project that I worked on while taking an online full-stack developer class by Colt Steele. 
 It is based off his project Yelpcamp and features the same technologies that he used.  
 
